@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Paradise - Global Booking System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* [आपके पुराने CSS स्टाइल्स यहाँ हैं] */
+        :root {
+            --brand-blue-600: #2563eb;
+            --brand-blue-500: #3b82f6;
+            --brand-blue-100: #dbeafe;
+            --brand-slate-900: #0f172a;
+            --brand-slate-600: #4b5563;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f3f4f6;
+            color: var(--brand-slate-900);
+        }
+
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Topbar */
+        .topbar {
+            background: #ffffff;
+            border-bottom: 1px solid rgba(15,23,42,0.06);
+        }
+
+        .topbar-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.75rem;
+            object-fit: cover;
+            background: #dbeafe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: var(--brand-blue-600);
+        }
+
+        .brand-text h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .brand-text p {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        .top-links {
+            display: flex;
+            gap: 1.25rem;
+            font-size: 0.85rem;
+        }
+
+        .top-links span {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            color: #4b5563;
+        }
+
+        /* Hero section */
+        .hero-section {
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0.96), rgba(59, 130, 246, 0.94));
+            color: #ffffff;
+            padding: 2.5rem 1.5rem 5rem;
+        }
+
+        .hero-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 999px;
+            background: rgba(219, 234, 254, 0.18);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .hero-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-top: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-sub {
+            font-size: 0.95rem;
+            max-width: 420px;
+            opacity: 0.95;
+        }
+
+        .hero-list {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .hero-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .hero-list i {
+            color: #bbf7d0;
+        }
+
+        .hero-image-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+            border-radius: 1.25rem;
+            padding: 0.75rem;
+            box-shadow: 0 18px 40px rgba(15,23,42,0.35);
+        }
+
+        .hero-image-card img {
+            width: 100%;
+            border-radius: 1rem;
+            object-fit: cover;
+            display: block;
+        }
+
+        .hero-mini-badge {
+            margin-top: 0.6rem;
+            font-size: 0.78rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #e5e7eb;
+        }
+
+        /* Main content area */
+        .main-content {
+            max-width: 1000px;
+            margin: -3.5rem auto 2.5rem;
+            padding: 0 1.5rem 2rem;
+        }
+
+        .booking-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        @media (max-width: 900px) {
+            .hero-inner {
+                grid-template-columns: 1fr;
+            }
+            .booking-layout {
+                grid-template-columns: 1fr;
+            }
+            .main-content {
+                margin-top: -2.5rem;
+            }
+        }
+
+        /* LEFT INFO CARD */
+        .header {
+            text-align: left;
+            margin-bottom: 0;
+            max-width: 100%;
+            background: #ffffff;
+            border-radius: 1.25rem;
+            padding: 1.5rem 1.5rem 1.25rem;
+            box-shadow: 0 18px 40px rgba(15,23,42,0.07);
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            flex-wrap: wrap;
+            color: var(--brand-slate-900);
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            color: var(--brand-slate-600);
+        }
+
+        .header .tag {
+            display: none;
+        }
+
+        /* Booking card (form) */
+        .container {
+            background: var(--card-bg);
+            color: #333;
+            width: 100%;
+            max-width: 500px;
+            padding: 24px 24px 26px;
+            border-radius: 1.25rem;
+            box-shadow: 0 18px 40px rgba(15,23,42,0.08);
+            backdrop-filter: blur(10px);
+            margin: 0 auto;
+        }
+
+        .form-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            gap: 0.75rem;
+        }
+
+        .form-title-row h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .form-contact-meta {
+            font-size: 0.8rem;
+            color: #6b7280;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .form-contact-meta span {
+            display: flex;
+                align-items: center;
+                gap: 0.3rem;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #374151;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.18s ease;
+            background: #f9fafb;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--brand-blue-500);
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.22);
+        }
+
+        button {
+            width: 100%;
+            background: var(--brand-blue-600);
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        button:hover:not(:disabled) {
+            background: var(--brand-blue-500);
+            transform: translateY(-1px);
+            box-shadow: 0 12px 20px rgba(37,99,235,0.25);
+        }
+
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 10px;
+            font-weight: 500;
+            text-align: left;
+            display: none;
+            animation: fadeIn 0.5s ease;
+            border: 1px solid transparent;
+            font-size: 0.9rem;
+        }
+
+        .success {
+            background: #ecfdf3;
+            color: #166534;
+            border-color: #bbf7d0;
+        }
+
+        .error {
+            background: #fef2f2;
+            color: #b91c1c;
+            border-color: #fecaca;
+        }
+
+        .loading {
+            background: #fefce8;
+            color: #854d0e;
+            border-color: #facc15;
+        }
+
+        .info {
+            background: #e0f2fe;
+            color: #075985;
+            border-color: #7dd3fc;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .server-status {
+            background: #f9fafb;
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin-bottom: 18px;
+            text-align: left;
+            font-size: 13px;
+            border: 1px dashed #e5e7eb;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-online {
+            background: #22c55e;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.55; }
+            100% { opacity: 1; }
+        }
+
+        .footer {
+            margin-top: auto;
+            padding: 1.5rem 1.5rem 2rem;
+            text-align: center;
+            font-size: 13px;
+            color: #6b7280;
+            border-top: 1px solid rgba(15,23,42,0.06);
+        }
+
+        .footer-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Gallery section (dog images) */
+        .gallery-section {
+            margin-top: 1.5rem;
+            background: #ffffff;
+            border-radius: 1.25rem;
+            padding: 1.25rem 1.25rem 1.4rem;
+            box-shadow: 0 14px 32px rgba(15,23,42,0.06);
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .gallery-header h3 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .gallery-header span {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 0.6rem;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        .gallery-grid img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 0.75rem;
+        }
+
+        .gallery-tag {
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        input[type="date"] {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        @media (max-width: 768px) {
+            input[type="date"] {
+                font-size: 16px;
+            }
+            
+            textarea {
+                min-height: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+    <div class="topbar">
+        <div class="topbar-inner">
+            <div class="brand">
+                <div class="brand-logo">
+                    <i class="fas fa-paw"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>Pet Paradise</h1>
+                    <p>Premium pet shop & services</p>
+                </div>
+            </div>
+            <div class="top-links">
+                <span><i class="fas fa-location-dot"></i> Online Booking</span>
+            </div>
+        </div>
+    </div>
+
+    <section class="hero-section">
+        <div class="hero-inner">
+            <div>
+                <div class="hero-badge">
+                    <i class="fas fa-calendar-check"></i>
+                    Online Booking
+                </div>
+                <h2 class="hero-title">Book Your Pet's Appointment</h2>
+                <p class="hero-sub">
+                    Grooming, vet checkups, boarding and training — all appointments sent directly to the admin dashboard in real-time.
+                </p>
+                <ul class="hero-list">
+                    <li><i class="fas fa-check-circle"></i> Designed for pet parents</li>
+                    <li><i class="fas fa-check-circle"></i> Instant reference on every booking</li>
+                    <li><i class="fas fa-check-circle"></i> Easy online form, no app needed</li>
+                </ul>
+            </div>
+            <div>
+                <div class="hero-image-card">
+                    <img src="https://placedog.net/800/520?random" alt="Happy dog at Pet Paradise">
+                    <div class="hero-mini-badge">
+                        <span><i class="fas fa-star"></i> Trusted by pet parents</span>
+                        <span><i class="fas fa-clock"></i> Online booking 24/7</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <div class="booking-layout">
+            <div>
+                <div class="header">
+                    <h1><i class="fas fa-paw"></i> Pet Paradise</h1>
+                    <p>Online booking for pet grooming, vet visits, boarding and training.</p>
+                    <div class="tag">
+                        Secure • Real-time • Cloud Hosted
+                    </div>
+                </div>
+
+                <section class="gallery-section">
+                    <div class="gallery-header">
+                        <h3><i class="fas fa-images"></i> Happy Clients Gallery</h3>
+                        <span>Recent grooming & daycare visits</span>
+                    </div>
+                    <div class="gallery-grid">
+                        <img src="https://images.pexels.com/photos/3299900/pexels-photo-3299900.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Dog 1">
+                        <img src="https://images.pexels.com/photos/4587995/pexels-photo-4587995.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Dog 2">
+                        <img src="https://images.pexels.com/photos/5731861/pexels-photo-5731861.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Dog 3">
+                        <img src="https://images.pexels.com/photos/1390784/pexels-photo-1390784.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Dog 4">
+                        <img src="https://images.pexels.com/photos/7210261/pexels-photo-7210261.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Dog 5">
+                        <img src="https://images.pexels.com/photos/4588422/pexels-photo-4588422.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Dog 6">
+                        <img src="https://images.pexels.com/photos/7210281/pexels-photo-7210281.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Dog 7">
+                        <img src="https://images.pexels.com/photos/7210545/pexels-photo-7210545.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Dog 8">
+                    </div>
+                    <div class="gallery-tag"></div>
+                </section>
+            </div>
+
+            <div class="container">
+                <div class="form-title-row">
+                    <h2>Book Appointment</h2>
+                    <div class="form-contact-meta">
+                        <span><i class="fas fa-tag"></i> Online Booking</span>
+                    </div>
+                </div>
+
+                <div id="serverStatus" class="server-status">
+                    <div id="statusText">
+                        <span class="status-dot status-online"></span>
+                        Checking server connection...
+                    </div>
+                </div>
+
+                <form id="bookingForm">
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-user"></i> Your Full Name</label>
+                        <input type="text" id="name" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone"><i class="fas fa-phone"></i> Phone Number</label>
+                        <input type="tel" id="phone" placeholder="e.g., +1 555-555-1212" required maxlength="20">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pet"><i class="fas fa-dog"></i> Pet's Name</label>
+                        <input type="text" id="pet" placeholder="Enter your pet's name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="petType"><i class="fas fa-paw"></i> Pet Type</label>
+                        <select id="petType" required>
+                            <option value="">-- Select pet type --</option>
+                            <option value="Dog">🐶 Dog</option>
+                            <option value="Cat">🐱 Cat</option>
+                            <option value="Bird">🦜 Bird</option>
+                            <option value="Rabbit">🐇 Rabbit</option>
+                            <option value="Other">🐾 Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="service"><i class="fas fa-spa"></i> Select Service</label>
+                        <select id="service" required>
+                            <option value="">-- Choose a service --</option>
+                            <option value="Grooming">🐶 Grooming & Bath</option>
+                            <option value="Vet Checkup">🏥 Veterinary Checkup</option>
+                            <option value="Boarding">🏨 Boarding & Daycare</option>
+                            <option value="Training">🎓 Training Sessions</option>
+                            <option value="Emergency">🚨 Emergency Care</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="appointmentDate"><i class="fas fa-calendar-day"></i> Appointment Date</label>
+                        <input type="date" id="appointmentDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="timeSlot"><i class="fas fa-clock"></i> Time Slot</label>
+                        <select id="timeSlot" required>
+                            <option value="">-- Select time --</option>
+                            <option value="9:00-10:00">9:00 AM - 10:00 AM</option>
+                            <option value="10:30-11:30">10:30 AM - 11:30 AM</option>
+                            <option value="14:00-15:00">2:00 PM - 3:00 PM</option>
+                            <option value="16:00-17:00">4:00 PM - 5:00 PM</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="specialNotes"><i class="fas fa-sticky-note"></i> Special Notes</label>
+                        <textarea id="specialNotes" rows="2" placeholder="Any special instructions..."></textarea>
+                    </div>
+
+                    <button type="submit" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i> Send Appointment Request
+                    </button>
+                </form>
+
+                <div id="result"></div>
+            </div>
+        </div>
+    </main>
+
+    <div class="footer">
+        <div class="footer-inner">
+            <p><i class="fas fa-phone"></i> (555) 123-4567 &nbsp;|&nbsp; <i class="fas fa-envelope"></i> hello@petparadise.com</p>
+            <p>© 2025 Pet Paradise</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ✅ APPS SCRIPT GLOBAL SERVER URL - UPDATED
+    const GLOBAL_SERVER = "https://script.google.com/macros/s/AKfycbyu7ibYx852TTRNjo1xj6AdVn9jUug8Lh5J1IvfDIB4KZeIZ1g1lMWg_yOLq0zT_jSYSQ/exec"; 
+    
+    document.addEventListener('DOMContentLoaded', async () => {
+        document.getElementById('name').focus();
+        
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('appointmentDate').min = today;
+        
+        // Apps Script is assumed ON (always on server)
+        document.getElementById('statusText').innerHTML = `
+            <span class="status-dot status-online"></span>
+            ✅ Cloud Server Active (Google Apps Script)
+        `;
+        document.getElementById('serverStatus').style.background = 'rgba(22, 163, 74, 0.08)';
+
+    });
+    
+    document.getElementById('bookingForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('name').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const pet = document.getElementById('pet').value.trim();
+        const petType = document.getElementById('petType').value;
+        const service = document.getElementById('service').value;
+        const appointmentDate = document.getElementById('appointmentDate').value;
+        const timeSlot = document.getElementById('timeSlot').value;
+        const specialNotes = document.getElementById('specialNotes').value.trim();
+        
+        if (!name || !phone || !pet || !petType || !service || !appointmentDate || !timeSlot) {
+            showResult('Please fill all the required fields!', 'error');
+            return;
+        }
+        
+        const cleanedPhone = phone.replace(/\D/g, ''); 
+        if (cleanedPhone.length < 10) { 
+            showResult('Please enter a valid phone number (minimum 10 digits required)!', 'error');
+            return;
+        }
+        
+        const selectedDate = new Date(appointmentDate);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        if (selectedDate < today) {
+            showResult('Cannot select past date!', 'error');
+            return;
+        }
+        
+        const submitBtn = document.getElementById('submitBtn');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        submitBtn.disabled = true;
+        
+        showResult('Connecting to cloud server...', 'loading');
+        
+        const appointmentData = {
+            name: name,
+            phone: phone, 
+            pet: pet,
+            petType: petType,
+            service: service,
+            appointmentDate: appointmentDate,
+            timeSlot: timeSlot,
+            specialNotes: specialNotes
+        };
+        
+        try {
+            // Apps Script requires the POST body to be sent as URLSearchParams
+            const params = new URLSearchParams(appointmentData);
+
+            const response = await fetch(GLOBAL_SERVER, {
+                method: 'POST',
+                body: params 
+            });
+            
+            const textResult = await response.text(); 
+            const result = JSON.parse(textResult);
+
+            if (response.ok && result.success) {
+                showResult(`
+                    <h3 style="color: #166534; margin-bottom: 6px;">✅ Appointment Booked Successfully!</h3>
+                    <p><strong>Service:</strong> ${service}</p>
+                    <p><strong>Date:</strong> ${appointmentDate}</p>
+                    <p><strong>Time:</strong> ${timeSlot}</p>
+                    <p style="margin-top: 10px; font-size: 13px;">
+                        <i class="fas fa-info-circle"></i> Appointment sent directly to Google Sheet/Admin Dashboard.
+                    </p>
+                `, 'success');
+                
+                document.getElementById('bookingForm').reset();
+                
+            } else {
+                showResult(`❌ Error: ${result.message || 'Failed to book appointment. Check Apps Script logs.'}`, 'error');
+            }
+            
+        } catch (error) {
+            console.error(error);
+            showResult('⚠️ Network Error! Could not reach the cloud server or response was malformed. Check the Apps Script URL.', 'error');
+        } finally {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+    
+    function showResult(message, type) {
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = message;
+        resultDiv.className = type;
+        resultDiv.style.display = 'block';
+    }
+</script>
+</body>
+</html>
