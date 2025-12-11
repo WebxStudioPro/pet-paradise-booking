@@ -284,6 +284,56 @@
             gap: 8px;
         }
 
+        /* New Style for Checkbox Consent */
+        .consent-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            color: #4b5563;
+        }
+
+        .consent-group input[type="checkbox"] {
+            margin-top: 3px;
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            border: 1px solid #9ca3af;
+            border-radius: 4px;
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            position: relative;
+            background: #f9fafb;
+        }
+        
+        .consent-group input[type="checkbox"]:checked {
+            background: var(--brand-blue-600);
+            border-color: var(--brand-blue-600);
+        }
+        
+        .consent-group input[type="checkbox"]:checked::after {
+            content: "\f00c"; /* Font Awesome check mark */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            font-size: 10px;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .consent-group a {
+            color: var(--brand-blue-600);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        /* End New Style */
+
+
         input,
         select,
         textarea {
@@ -648,6 +698,16 @@
                         <label for="specialNotes"><i class="fas fa-sticky-note"></i> Special Notes</label>
                         <textarea id="specialNotes" rows="2" placeholder="Any special instructions..."></textarea>
                     </div>
+                    
+                    <div class="consent-group">
+                        <input type="checkbox" id="tcpaConsent" required>
+                        <label for="tcpaConsent" style="margin-bottom: 0;">
+                            I agree to the <a href="[LINK_TO_YOUR_TERMS_OF_SERVICE]" target="_blank">Terms of Service</a> and consent to receive automated booking confirmation and reminders via text message to the provided phone number. (Standard message and data rates may apply). 
+                            <br>
+                            <a href="[LINK_TO_YOUR_PRIVACY_POLICY]" target="_blank" style="font-size: 0.75rem;"><i class="fas fa-lock"></i> Our Privacy Policy</a>
+                        </label>
+                    </div>
+
 
                     <button type="submit" id="submitBtn">
                         <i class="fas fa-paper-plane"></i> Send Appointment Request
@@ -668,7 +728,8 @@
 </div>
 
 <script>
-    // ✅ APPS SCRIPT GLOBAL SERVER URL - UPDATED
+    // ✅ APPS SCRIPT GLOBAL SERVER URL - UPDATED PLACEHOLDER
+    // इसे अपने असली Apps Script Web App URL से बदलना सुनिश्चित करें!
     const GLOBAL_SERVER = "https://script.google.com/macros/s/AKfycbyu7ibYx852TTRNjo1xj6AdVn9jUug8Lh5J1IvfDIB4KZeIZ1g1lMWg_yOLq0zT_jSYSQ/exec"; 
     
     document.addEventListener('DOMContentLoaded', async () => {
@@ -697,12 +758,19 @@
         const appointmentDate = document.getElementById('appointmentDate').value;
         const timeSlot = document.getElementById('timeSlot').value;
         const specialNotes = document.getElementById('specialNotes').value.trim();
+        const tcpaConsent = document.getElementById('tcpaConsent').checked; // ✅ सहमति की स्थिति प्राप्त करें
         
         if (!name || !phone || !pet || !petType || !service || !appointmentDate || !timeSlot) {
             showResult('Please fill all the required fields!', 'error');
             return;
         }
         
+        // ✅ TCPA सहमति जाँच
+        if (!tcpaConsent) {
+            showResult('❌ You must agree to the Terms of Service and text message consent to proceed!', 'error');
+            return;
+        }
+
         const cleanedPhone = phone.replace(/\D/g, ''); 
         if (cleanedPhone.length < 10) { 
             showResult('Please enter a valid phone number (minimum 10 digits required)!', 'error');
@@ -760,6 +828,8 @@
                 `, 'success');
                 
                 document.getElementById('bookingForm').reset();
+                // ✅ सहमति चेकबॉक्स को भी रीसेट करें
+                document.getElementById('tcpaConsent').checked = false;
                 
             } else {
                 showResult(`❌ Error: ${result.message || 'Failed to book appointment. Check Apps Script logs.'}`, 'error');
