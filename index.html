@@ -469,6 +469,19 @@
             max-width: 1000px;
             margin: 0 auto;
         }
+        
+        .footer-links { /* Added style for footer links */
+            margin-top: 0.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .footer-links a {
+            color: #4b5563;
+            text-decoration: none;
+            font-weight: 500;
+        }
 
         /* Gallery section (dog images) */
         .gallery-section {
@@ -721,8 +734,16 @@
 
     <div class="footer">
         <div class="footer-inner">
-            <p><i class="fas fa-phone"></i> (555) 123-4567 &nbsp;|&nbsp; <i class="fas fa-envelope"></i> hello@petparadise.com</p>
-            <p>© 2025 Pet Paradise</p>
+            <p>
+                <i class="fas fa-phone"></i> (555) 123-4567 &nbsp;|&nbsp; 
+                <i class="fas fa-envelope"></i> hello@petparadise.com
+            </p>
+            <div class="footer-links">
+                <a href="contact-us.html">Contact Us</a> 
+                <a href="[LINK_TO_YOUR_PRIVACY_POLICY]" target="_blank">Privacy Policy</a> 
+                <a href="[LINK_TO_YOUR_TERMS_OF_SERVICE]" target="_blank">Terms of Service</a> 
+            </div>
+            <p style="margin-top: 0.5rem;">© 2025 Pet Paradise</p>
         </div>
     </div>
 </div>
