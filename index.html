@@ -1,876 +1,391 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pet Paradise - Global Booking System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        /* [आपके पुराने CSS स्टाइल्स यहाँ हैं] */
-        :root {
-            --brand-blue-600: #2563eb;
-            --brand-blue-500: #3b82f6;
-            --brand-blue-100: #dbeafe;
-            --brand-slate-900: #0f172a;
-            --brand-slate-600: #4b5563;
-            --card-bg: #ffffff;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #f3f4f6;
-            color: var(--brand-slate-900);
-        }
-
-        .page-wrapper {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Topbar */
-        .topbar {
-            background: #ffffff;
-            border-bottom: 1px solid rgba(15,23,42,0.06);
-        }
-
-        .topbar-inner {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0.75rem 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .brand-logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 0.75rem;
-            object-fit: cover;
-            background: #dbeafe;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            color: var(--brand-blue-600);
-        }
-
-        .brand-text h1 {
-            font-size: 1.25rem;
-            font-weight: 700;
-        }
-
-        .brand-text p {
-            font-size: 0.75rem;
-            color: #6b7280;
-        }
-
-        .top-links {
-            display: flex;
-            gap: 1.25rem;
-            font-size: 0.85rem;
-        }
-
-        .top-links span {
-            display: flex;
-            align-items: center;
-            gap: 0.35rem;
-            color: #4b5563;
-        }
-
-        /* Hero section */
-        .hero-section {
-            background: linear-gradient(90deg, rgba(37, 99, 235, 0.96), rgba(59, 130, 246, 0.94));
-            color: #ffffff;
-            padding: 2.5rem 1.5rem 5rem;
-        }
-
-        .hero-inner {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.3rem 0.8rem;
-            border-radius: 999px;
-            background: rgba(219, 234, 254, 0.18);
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
-        .hero-title {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-top: 0.75rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .hero-sub {
-            font-size: 0.95rem;
-            max-width: 420px;
-            opacity: 0.95;
-        }
-
-        .hero-list {
-            margin-top: 1rem;
-            font-size: 0.9rem;
-        }
-
-        .hero-list li {
-            display: flex;
-            align-items: center;
-            gap: 0.45rem;
-            margin-bottom: 0.4rem;
-        }
-
-        .hero-list i {
-            color: #bbf7d0;
-        }
-
-        .hero-image-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
-            border-radius: 1.25rem;
-            padding: 0.75rem;
-            box-shadow: 0 18px 40px rgba(15,23,42,0.35);
-        }
-
-        .hero-image-card img {
-            width: 100%;
-            border-radius: 1rem;
-            object-fit: cover;
-            display: block;
-        }
-
-        .hero-mini-badge {
-            margin-top: 0.6rem;
-            font-size: 0.78rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #e5e7eb;
-        }
-
-        /* Main content area */
-        .main-content {
-            max-width: 1000px;
-            margin: -3.5rem auto 2.5rem;
-            padding: 0 1.5rem 2rem;
-        }
-
-        .booking-layout {
-            display: grid;
-            grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-            gap: 1.5rem;
-            align-items: flex-start;
-        }
-
-        @media (max-width: 900px) {
-            .hero-inner {
-                grid-template-columns: 1fr;
-            }
-            .booking-layout {
-                grid-template-columns: 1fr;
-            }
-            .main-content {
-                margin-top: -2.5rem;
-            }
-        }
-
-        /* LEFT INFO CARD */
-        .header {
-            text-align: left;
-            margin-bottom: 0;
-            max-width: 100%;
-            background: #ffffff;
-            border-radius: 1.25rem;
-            padding: 1.5rem 1.5rem 1.25rem;
-            box-shadow: 0 18px 40px rgba(15,23,42,0.07);
-        }
-
-        .header h1 {
-            font-size: 1.6rem;
-            margin-bottom: 0.4rem;
-            display: flex;
-            align-items: center;
-            gap: 0.55rem;
-            flex-wrap: wrap;
-            color: var(--brand-slate-900);
-        }
-
-        .header p {
-            font-size: 0.9rem;
-            color: var(--brand-slate-600);
-        }
-
-        .header .tag {
-            display: none;
-        }
-
-        /* Booking card (form) */
-        .container {
-            background: var(--card-bg);
-            color: #333;
-            width: 100%;
-            max-width: 500px;
-            padding: 24px 24px 26px;
-            border-radius: 1.25rem;
-            box-shadow: 0 18px 40px rgba(15,23,42,0.08);
-            backdrop-filter: blur(10px);
-            margin: 0 auto;
-        }
-
-        .form-title-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-            gap: 0.75rem;
-        }
-
-        .form-title-row h2 {
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
-
-        .form-contact-meta {
-            font-size: 0.8rem;
-            color: #6b7280;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-
-        .form-contact-meta span {
-            display: flex;
-                align-items: center;
-                gap: 0.3rem;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 500;
-            color: #374151;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* New Style for Checkbox Consent */
-        .consent-group {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            font-size: 0.85rem;
-            color: #4b5563;
-        }
-
-        .consent-group input[type="checkbox"] {
-            margin-top: 3px;
-            width: 18px;
-            height: 18px;
-            flex-shrink: 0;
-            border: 1px solid #9ca3af;
-            border-radius: 4px;
-            appearance: none;
-            -webkit-appearance: none;
-            cursor: pointer;
-            position: relative;
-            background: #f9fafb;
-        }
-        
-        .consent-group input[type="checkbox"]:checked {
-            background: var(--brand-blue-600);
-            border-color: var(--brand-blue-600);
-        }
-        
-        .consent-group input[type="checkbox"]:checked::after {
-            content: "\f00c"; /* Font Awesome check mark */
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            font-size: 10px;
-            color: white;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .consent-group a {
-            color: var(--brand-blue-600);
-            text-decoration: none;
-            font-weight: 600;
-        }
-        /* End New Style */
-
-
-        input,
-        select,
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            font-size: 15px;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.18s ease;
-            background: #f9fafb;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: var(--brand-blue-500);
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(59,130,246,0.22);
-        }
-
-        button {
-            width: 100%;
-            background: var(--brand-blue-600);
-            color: white;
-            padding: 14px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 6px;
-        }
-
-        button:hover:not(:disabled) {
-            background: var(--brand-blue-500);
-            transform: translateY(-1px);
-            box-shadow: 0 12px 20px rgba(37,99,235,0.25);
-        }
-
-        button:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        #result {
-            margin-top: 20px;
-            padding: 16px;
-            border-radius: 10px;
-            font-weight: 500;
-            text-align: left;
-            display: none;
-            animation: fadeIn 0.5s ease;
-            border: 1px solid transparent;
-            font-size: 0.9rem;
-        }
-
-        .success {
-            background: #ecfdf3;
-            color: #166534;
-            border-color: #bbf7d0;
-        }
-
-        .error {
-            background: #fef2f2;
-            color: #b91c1c;
-            border-color: #fecaca;
-        }
-
-        .loading {
-            background: #fefce8;
-            color: #854d0e;
-            border-color: #facc15;
-        }
-
-        .info {
-            background: #e0f2fe;
-            color: #075985;
-            border-color: #7dd3fc;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .server-status {
-            background: #f9fafb;
-            padding: 10px 12px;
-            border-radius: 10px;
-            margin-bottom: 18px;
-            text-align: left;
-            font-size: 13px;
-            border: 1px dashed #e5e7eb;
-        }
-
-        .status-dot {
-            display: inline-block;
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-
-        .status-online {
-            background: #22c55e;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.55; }
-            100% { opacity: 1; }
-        }
-
-        .footer {
-            margin-top: auto;
-            padding: 1.5rem 1.5rem 2rem;
-            text-align: center;
-            font-size: 13px;
-            color: #6b7280;
-            border-top: 1px solid rgba(15,23,42,0.06);
-        }
-
-        .footer-inner {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        
-        .footer-links { /* Added style for footer links */
-            margin-top: 0.5rem;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        .footer-links a {
-            color: #4b5563;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        /* Gallery section (dog images) */
-        .gallery-section {
-            margin-top: 1.5rem;
-            background: #ffffff;
-            border-radius: 1.25rem;
-            padding: 1.25rem 1.25rem 1.4rem;
-            box-shadow: 0 14px 32px rgba(15,23,42,0.06);
-        }
-
-        .gallery-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-        }
-
-        .gallery-header h3 {
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        .gallery-header span {
-            font-size: 0.8rem;
-            color: #6b7280;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 0.6rem;
-        }
-
-        @media (max-width: 768px) {
-            .gallery-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-        }
-
-        .gallery-grid img {
-            width: 100%;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 0.75rem;
-        }
-
-        .gallery-tag {
-            font-size: 0.75rem;
-            margin-top: 0.5rem;
-            color: #6b7280;
-            display: flex;
-            align-items: center;
-            gap: 0.35rem;
-        }
-
-        input[type="date"] {
-            font-family: 'Poppins', sans-serif;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        @media (max-width: 768px) {
-            input[type="date"] {
-                font-size: 16px;
-            }
-            
-            textarea {
-                min-height: 80px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Paws | Elite Pet Grooming Service</title>
+<meta name="description" content="Premium, cage-free pet grooming service. Zero data collection, 100% privacy focused.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+/* --- 🎨 PRO DESIGN SYSTEM --- */
+:root {
+    --primary: #0f172a;        /* Deep Navy (Luxury) */
+    --accent: #3b82f6;         /* Trust Blue */
+    --gold: #d4af37;           /* Gold (Wealth) */
+    --bg-body: #f8fafc;
+    --white: #ffffff;
+    --radius: 24px;
+    --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Manrope', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--primary);
+    overflow-x: hidden;
+    line-height: 1.7;
+    padding-bottom: 80px; /* Space for floating button */
+}
+
+h1, h2, h3 { font-family: 'Playfair Display', serif; }
+a { text-decoration: none; transition: 0.3s; }
+img { max-width: 100%; display: block; }
+
+/* --- ✨ ANIMATIONS --- */
+.reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+/* --- HEADER (Glass Effect) --- */
+header {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.nav-inner {
+    max-width: 1200px; margin: auto; padding: 15px 24px;
+    display: flex; justify-content: space-between; align-items: center;
+}
+.brand { font-size: 24px; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; letter-spacing: -0.5px; }
+.brand i { color: var(--gold); }
+
+/* --- HERO SECTION --- */
+.hero { padding: 160px 0 80px; background: linear-gradient(135deg, #eff6ff 0%, #fff 100%); }
+.container { max-width: 1200px; margin: auto; padding: 0 24px; }
+.hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 50px; align-items: center; }
+
+.hero-text h1 { font-size: 4rem; line-height: 1.1; margin-bottom: 20px; color: var(--primary); }
+.hero-text p { font-size: 1.15rem; color: #64748b; margin-bottom: 35px; }
+.badge {
+    background: #e0f2fe; color: #0369a1; padding: 6px 14px; border-radius: 50px;
+    font-weight: 700; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; display: inline-block; margin-bottom: 20px;
+}
+
+/* BUTTONS */
+.btn-group { display: flex; gap: 15px; flex-wrap: wrap; }
+.cta-btn {
+    padding: 14px 30px; border-radius: 100px; font-weight: 700; display: inline-flex; align-items: center; gap: 10px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.3s;
+}
+.btn-gold { background: var(--gold); color: white; border: 2px solid var(--gold); }
+.btn-gold:hover { background: #b8962e; border-color: #b8962e; transform: translateY(-3px); }
+
+.hero-img { border-radius: 30px; box-shadow: var(--shadow-lg); transform: rotate(2deg); transition: 0.5s; }
+.hero-img:hover { transform: rotate(0deg) scale(1.02); }
+
+/* --- TRUST STRIP --- */
+.trust-strip { background: var(--white); padding: 50px 0; border-bottom: 1px solid #f1f5f9; }
+.trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; text-align: center; }
+.t-item i { font-size: 28px; color: var(--gold); margin-bottom: 15px; }
+.t-item h4 { font-size: 18px; font-weight: 700; margin-bottom: 5px; }
+.t-item p { font-size: 14px; color: #64748b; }
+
+/* --- SERVICES --- */
+.section { padding: 80px 0; }
+.section-title { text-align: center; max-width: 700px; margin: 0 auto 50px; }
+.section-title h2 { font-size: 2.8rem; margin-bottom: 10px; }
+
+.services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+.card {
+    background: var(--white); border-radius: var(--radius); padding: 12px;
+    border: 1px solid #f1f5f9; transition: 0.4s; position: relative; overflow: hidden;
+}
+.card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); border-color: var(--gold); }
+.card-img { height: 240px; width: 100%; object-fit: cover; border-radius: 18px; }
+.card-body { padding: 20px 10px; }
+.card-body h3 { font-size: 1.5rem; margin-bottom: 8px; }
+.price-tag { color: var(--gold); font-weight: 800; font-size: 1.2rem; display: block; margin-top: 10px; }
+
+/* --- ⭐ REVIEWS --- */
+.reviews-section { background: #fff; padding: 80px 0; }
+.review-card {
+    background: #f8fafc; padding: 30px; border-radius: 20px; border: 1px solid #e2e8f0;
+}
+.stars { color: #fbbf24; margin-bottom: 10px; font-size: 14px; }
+.review-text { font-style: italic; color: #475569; font-size: 15px; margin-bottom: 20px; }
+.reviewer { font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 10px; }
+.reviewer img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+
+/* --- FOOTER --- */
+footer { background: var(--primary); color: white; padding: 60px 0 20px; border-top: 4px solid var(--gold); }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px; }
+.f-link { display: block; color: #94a3b8; margin-bottom: 10px; cursor: pointer; font-size: 14px; }
+.f-link:hover { color: var(--gold); }
+
+/* --- 🛡️ SAFETY DISCLAIMER BAR --- */
+.disclaimer-bar {
+    background: #000; color: #94a3b8; text-align: center; padding: 15px; 
+    font-size: 13px; letter-spacing: 0.5px; line-height: 1.5;
+}
+
+/* --- 📱 FLOATING MOBILE BUTTON --- */
+.floating-cta {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    width: 90%; max-width: 400px; z-index: 999;
+    background: var(--primary); color: white; padding: 16px; border-radius: 50px;
+    text-align: center; font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    display: flex; justify-content: center; align-items: center; gap: 10px;
+    border: 2px solid var(--gold); animation: floatBtn 3s infinite ease-in-out;
+}
+@keyframes floatBtn { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-5px); } }
+
+/* --- LEGAL PAGE STYLES --- */
+.legal-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.95); z-index: 2000; padding: 40px 20px; overflow-y: auto; }
+.legal-page.active { display: block; }
+.legal-container { max-width: 800px; margin: 40px auto; background: white; border-radius: 20px; padding: 40px; position: relative; box-shadow: var(--shadow-lg); }
+.close-legal { position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 28px; color: var(--primary); cursor: pointer; }
+.legal-content { max-height: 70vh; overflow-y: auto; padding-right: 15px; }
+.legal-content h2 { color: var(--primary); margin-bottom: 25px; border-bottom: 2px solid var(--gold); padding-bottom: 10px; }
+.legal-content h3 { color: var(--primary); margin: 20px 0 10px; font-size: 1.2rem; }
+.legal-content p, .legal-content li { color: #475569; margin-bottom: 12px; font-size: 0.95rem; }
+.legal-content ul { padding-left: 20px; }
+.legal-content strong { color: var(--primary); }
+
+@media(max-width: 900px){
+    .hero-text h1 { font-size: 2.8rem; }
+    .hero-grid { grid-template-columns: 1fr; text-align: center; }
+    .btn-group { justify-content: center; }
+    .hero { padding-top: 120px; }
+    .legal-container { padding: 30px 20px; margin: 20px auto; }
+}
+</style>
 </head>
 <body>
-<div class="page-wrapper">
 
-    <div class="topbar">
-        <div class="topbar-inner">
-            <div class="brand">
-                <div class="brand-logo">
-                    <i class="fas fa-paw"></i>
-                </div>
-                <div class="brand-text">
-                    <h1>Pet Paradise</h1>
-                    <p>Premium pet shop & services</p>
+<header>
+    <div class="nav-inner">
+        <div class="brand"><i class="fas fa-paw"></i> HappyPaws<span style="color:var(--gold)">.</span></div>
+        <a href="https://calendly.com/foodparadisex07/30min" class="cta-btn btn-gold" style="padding: 8px 20px; font-size:13px; display:none; @media(min-width:768px){display:flex;}">
+            Book Now
+        </a>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container hero-grid">
+        <div class="hero-text reveal">
+            <span class="badge">Top Rated Grooming Service</span>
+            <h1>The Ultimate Spa for Your VIP Pet.</h1>
+            <p>Experience cage-free luxury grooming. Certified organic products, stress-free handling, and transparent care.</p>
+            
+            <div class="btn-group">
+                <a href="https://calendly.com/foodparadisex07/30min" class="cta-btn btn-gold">
+                    <i class="far fa-calendar-check"></i> Book Appointment
+                </a>
+            </div>
+        </div>
+        <div class="reveal">
+            <img src="https://images.pexels.com/photos/2023384/pexels-photo-2023384.jpeg?auto=compress&cs=tinysrgb&w=1000" class="hero-img" alt="Professional Pet Grooming">
+        </div>
+    </div>
+</section>
+
+<div class="trust-strip reveal">
+    <div class="container trust-grid">
+        <div class="t-item"><i class="fas fa-certificate"></i><h4>Certified Pros</h4><p>Award winning groomers</p></div>
+        <div class="t-item"><i class="fas fa-heart"></i><h4>Cruelty Free</h4><p>100% Organic Products</p></div>
+        <div class="t-item"><i class="fas fa-lock"></i><h4>Secure Booking</h4><p>No Data Sharing</p></div>
+    </div>
+</div>
+
+<section style="background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 25px; border-radius: 12px; max-width: 1100px; margin: 0 auto 40px auto; text-align: center;">
+    <h3 style="color: #0f172a; margin-bottom: 12px; font-size: 1.4rem;"><i class="fas fa-shield-alt"></i> Your Privacy & Security Matters</h3>
+    <p style="color: #475569; margin-bottom: 8px; font-size: 1rem;">
+        We only use your <strong>name, email address, and chosen appointment time</strong> to manage your booking. <strong>Happy Paws will never ask for passwords, OTPs, or payments via unexpected links or messages.</strong>
+    </p>
+    <p style="color: #64748b; font-size: 0.9rem; margin-top: 12px;">
+        If you receive any suspicious communication claiming to be from us, please ignore it and contact us directly.
+    </p>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-title reveal">
+            <h2>Luxury Services</h2>
+            <p>Treat your furry friend to the royal treatment.</p>
+        </div>
+        <div class="services-grid">
+            <div class="card reveal">
+                <img src="https://images.pexels.com/photos/5732464/pexels-photo-5732464.jpeg?auto=compress&cs=tinysrgb&w=600" class="card-img" alt="Luxury Dog Bath">
+                <div class="card-body">
+                    <h3>The Royal Bath</h3>
+                    <p>Deep clean & blueberry facial.</p>
+                    <span class="price-tag">$50+</span>
                 </div>
             </div>
-            <div class="top-links">
-                <span><i class="fas fa-location-dot"></i> Online Booking</span>
+            <div class="card reveal">
+                <img src="https://images.pexels.com/photos/4588048/pexels-photo-4588048.jpeg?auto=compress&cs=tinysrgb&w=600" class="card-img" alt="Dog Haircut Service">
+                <div class="card-body">
+                    <h3>Full Grooming</h3>
+                    <p>Haircut, styling & pawdicure.</p>
+                    <span class="price-tag">$85+</span>
+                </div>
+            </div>
+            <div class="card reveal">
+                <img src="https://images.pexels.com/photos/1390361/pexels-photo-1390361.jpeg?auto=compress&cs=tinysrgb&w=600" class="card-img" alt="Puppy Grooming">
+                <div class="card-body">
+                    <h3>Puppy Intro</h3>
+                    <p>Gentle first session.</p>
+                    <span class="price-tag">$40+</span>
+                </div>
             </div>
         </div>
     </div>
+</section>
 
-    <section class="hero-section">
-        <div class="hero-inner">
-            <div>
-                <div class="hero-badge">
-                    <i class="fas fa-calendar-check"></i>
-                    Online Booking
+<section class="reviews-section reveal">
+    <div class="container">
+        <div class="section-title">
+            <h2>Happy Parents</h2>
+        </div>
+        <div class="services-grid">
+            <div class="review-card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p class="review-text">"My Golden Retriever has never looked better! The staff is so gentle. Highly recommended!"</p>
+                <div class="reviewer">
+                    <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=100" alt="Reviewer">
+                    <span>Sarah Jenkins</span>
                 </div>
-                <h2 class="hero-title">Book Your Pet's Appointment</h2>
-                <p class="hero-sub">
-                    Grooming, vet checkups, boarding and training — all appointments sent directly to the admin dashboard in real-time.
-                </p>
-                <ul class="hero-list">
-                    <li><i class="fas fa-check-circle"></i> Designed for pet parents</li>
-                    <li><i class="fas fa-check-circle"></i> Instant reference on every booking</li>
-                    <li><i class="fas fa-check-circle"></i> Easy online form, no app needed</li>
-                </ul>
             </div>
-            <div>
-                <div class="hero-image-card">
-                    <img src="https://placedog.net/800/520?random" alt="Happy dog at Pet Paradise">
-                    <div class="hero-mini-badge">
-                        <span><i class="fas fa-star"></i> Trusted by pet parents</span>
-                        <span><i class="fas fa-clock"></i> Online booking 24/7</span>
-                    </div>
+            <div class="review-card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p class="review-text">"Finally a place that doesn't use cages. Max was so happy when I picked him up."</p>
+                <div class="reviewer">
+                    <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=100" alt="Reviewer">
+                    <span>Mike Ross</span>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <main class="main-content">
-        <div class="booking-layout">
+<footer>
+    <div class="container">
+        <div class="footer-grid">
             <div>
-                <div class="header">
-                    <h1><i class="fas fa-paw"></i> Pet Paradise</h1>
-                    <p>Online booking for pet grooming, vet visits, boarding and training.</p>
-                    <div class="tag">
-                        Secure • Real-time • Cloud Hosted
-                    </div>
-                </div>
-
-                <section class="gallery-section">
-                    <div class="gallery-header">
-                        <h3><i class="fas fa-images"></i> Happy Clients Gallery</h3>
-                        <span>Recent grooming & daycare visits</span>
-                    </div>
-                    <div class="gallery-grid">
-                        <img src="https://images.pexels.com/photos/3299900/pexels-photo-3299900.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Dog 1">
-                        <img src="https://images.pexels.com/photos/4587995/pexels-photo-4587995.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Dog 2">
-                        <img src="https://images.pexels.com/photos/5731861/pexels-photo-5731861.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Dog 3">
-                        <img src="https://images.pexels.com/photos/1390784/pexels-photo-1390784.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Dog 4">
-                        <img src="https://images.pexels.com/photos/7210261/pexels-photo-7210261.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Dog 5">
-                        <img src="https://images.pexels.com/photos/4588422/pexels-photo-4588422.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Dog 6">
-                        <img src="https://images.pexels.com/photos/7210281/pexels-photo-7210281.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Dog 7">
-                        <img src="https://images.pexels.com/photos/7210545/pexels-photo-7210545.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Dog 8">
-                    </div>
-                    <div class="gallery-tag"></div>
-                </section>
+                <h3 style="color:white; margin-bottom:15px;">HappyPaws.</h3>
+                <p style="font-size:13px; opacity:0.7;">The most trusted grooming salon.<br>Committed to safety & privacy.</p>
             </div>
-
-            <div class="container">
-                <div class="form-title-row">
-                    <h2>Book Appointment</h2>
-                    <div class="form-contact-meta">
-                        <span><i class="fas fa-tag"></i> Online Booking</span>
-                    </div>
-                </div>
-
-                <div id="serverStatus" class="server-status">
-                    <div id="statusText">
-                        <span class="status-dot status-online"></span>
-                        Checking server connection...
-                    </div>
-                </div>
-
-                <form id="bookingForm">
-                    <div class="form-group">
-                        <label for="name"><i class="fas fa-user"></i> Your Full Name</label>
-                        <input type="text" id="name" placeholder="Enter your full name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="phone"><i class="fas fa-phone"></i> Phone Number</label>
-                        <input type="tel" id="phone" placeholder="e.g., +1 555-555-1212" required maxlength="20">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="pet"><i class="fas fa-dog"></i> Pet's Name</label>
-                        <input type="text" id="pet" placeholder="Enter your pet's name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="petType"><i class="fas fa-paw"></i> Pet Type</label>
-                        <select id="petType" required>
-                            <option value="">-- Select pet type --</option>
-                            <option value="Dog">🐶 Dog</option>
-                            <option value="Cat">🐱 Cat</option>
-                            <option value="Bird">🦜 Bird</option>
-                            <option value="Rabbit">🐇 Rabbit</option>
-                            <option value="Other">🐾 Other</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="service"><i class="fas fa-spa"></i> Select Service</label>
-                        <select id="service" required>
-                            <option value="">-- Choose a service --</option>
-                            <option value="Grooming">🐶 Grooming & Bath</option>
-                            <option value="Vet Checkup">🏥 Veterinary Checkup</option>
-                            <option value="Boarding">🏨 Boarding & Daycare</option>
-                            <option value="Training">🎓 Training Sessions</option>
-                            <option value="Emergency">🚨 Emergency Care</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="appointmentDate"><i class="fas fa-calendar-day"></i> Appointment Date</label>
-                        <input type="date" id="appointmentDate" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="timeSlot"><i class="fas fa-clock"></i> Time Slot</label>
-                        <select id="timeSlot" required>
-                            <option value="">-- Select time --</option>
-                            <option value="9:00-10:00">9:00 AM - 10:00 AM</option>
-                            <option value="10:30-11:30">10:30 AM - 11:30 AM</option>
-                            <option value="14:00-15:00">2:00 PM - 3:00 PM</option>
-                            <option value="16:00-17:00">4:00 PM - 5:00 PM</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="specialNotes"><i class="fas fa-sticky-note"></i> Special Notes</label>
-                        <textarea id="specialNotes" rows="2" placeholder="Any special instructions..."></textarea>
-                    </div>
-                    
-                    <div class="consent-group">
-                        <input type="checkbox" id="tcpaConsent" required>
-                        <label for="tcpaConsent" style="margin-bottom: 0;">
-                            I agree to the <a href="[LINK_TO_YOUR_TERMS_OF_SERVICE]" target="_blank">Terms of Service</a> and consent to receive automated booking confirmation and reminders via text message to the provided phone number. (Standard message and data rates may apply). 
-                            <br>
-                            <a href="[LINK_TO_YOUR_PRIVACY_POLICY]" target="_blank" style="font-size: 0.75rem;"><i class="fas fa-lock"></i> Our Privacy Policy</a>
-                        </label>
-                    </div>
-
-
-                    <button type="submit" id="submitBtn">
-                        <i class="fas fa-paper-plane"></i> Send Appointment Request
-                    </button>
-                </form>
-
-                <div id="result"></div>
+            <div>
+                <h4 style="color:var(--gold); margin-bottom:15px;">Quick Links</h4>
+                <span class="f-link">Our Story</span>
+                <span class="f-link">Services</span>
+                <span class="f-link">Careers</span>
+            </div>
+            <div>
+                <h4 style="color:var(--gold); margin-bottom:15px;">Legal</h4>
+                <a class="f-link" onclick="showLegal('privacy')">Privacy Policy</a>
+                <a class="f-link" onclick="showLegal('terms')">Terms & Conditions</a>
             </div>
         </div>
-    </main>
+    </div>
+    
+    <div class="disclaimer-bar">
+        <strong>Your Safety & Privacy Matter:</strong> We only collect your name, email address, and appointment time to manage your booking. <strong>Happy Paws will NEVER ask for passwords, OTPs, or payments via unexpected links.</strong>
+    </div>
+</footer>
 
-    <div class="footer">
-        <div class="footer-inner">
-            <p>
-                <i class="fas fa-phone"></i> (555) 123-4567 &nbsp;|&nbsp; 
-                <i class="fas fa-envelope"></i> hello@petparadise.com
-            </p>
-            <div class="footer-links">
-                <a href="contact-us.html">Contact Us</a> 
-                <a href="[LINK_TO_YOUR_PRIVACY_POLICY]" target="_blank">Privacy Policy</a> 
-                <a href="[LINK_TO_YOUR_TERMS_OF_SERVICE]" target="_blank">Terms of Service</a> 
-            </div>
-            <p style="margin-top: 0.5rem;">© 2025 Pet Paradise</p>
+<a href="https://calendly.com/foodparadisex07/30min" class="floating-cta">
+    <i class="far fa-calendar-alt"></i> BOOK APPOINTMENT
+</a>
+
+<div id="privacy-policy" class="legal-page">
+    <div class="legal-container">
+        <button class="close-legal" onclick="closeLegal()">&times;</button>
+        <div class="legal-content">
+            <h2><i class="fas fa-user-shield"></i> Privacy Policy</h2>
+            <p><strong>Last Updated:</strong> January 2025</p>
+            
+            <h3>1. Introduction</h3>
+            <p>Happy Paws Grooming ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we handle information when you visit our website.</p>
+            
+            <h3>2. Information We Do NOT Collect</h3>
+            <p>We explicitly do NOT collect, store, or process:</p>
+            <ul>
+                <li>Personal identification information through website forms (unless voluntarily submitted)</li>
+                <li>Payment information or financial data directly on this domain</li>
+                <li>Cookies or tracking technologies that identify individual users</li>
+            </ul>
+            
+            <h3>3. Third-Party Booking</h3>
+            <p>When you book an appointment via Calendly, they collect your name, email, and preferred time solely for appointment management. Please review their privacy policy separately.</p>
+            
+            <h3>4. Global Privacy Compliance</h3>
+            <p>We respect your rights to data privacy and adhere to global best practices regarding data minimization and transparency.</p>
+            
+            <h3>5. Contact Us</h3>
+            <p>For privacy-related questions, please contact us directly at our business location.</p>
+        </div>
+    </div>
+</div>
+
+<div id="terms-conditions" class="legal-page">
+    <div class="legal-container">
+        <button class="close-legal" onclick="closeLegal()">&times;</button>
+        <div class="legal-content">
+            <h2><i class="fas fa-balance-scale"></i> Terms & Conditions</h2>
+            <p><strong>Last Updated:</strong> January 2025</p>
+            
+            <h3>1. Acceptance of Terms</h3>
+            <p>By accessing and using the Happy Paws Grooming website, you acknowledge that you have read, understood, and agree to be bound by these Terms & Conditions.</p>
+            
+            <h3>2. Services Description</h3>
+            <p>Happy Paws Grooming provides premium pet grooming services. All service descriptions, pricing, and availability are subject to change without notice.</p>
+            
+            <h3>3. Booking and Cancellation</h3>
+            <ul>
+                <li>Appointments booked through third-party platforms are subject to their cancellation policies</li>
+                <li>We require 24-hour notice for cancellations to avoid fees</li>
+            </ul>
+            
+            <h3>4. Pet Health and Safety</h3>
+            <p>You warrant that your pet is current on required vaccinations. We reserve the right to refuse service if a pet poses a health or safety risk.</p>
+            
+            <h3>5. Governing Law</h3>
+            <p>These terms shall be governed by the local laws of the jurisdiction in which the service is provided, without regard to conflict of law provisions.</p>
         </div>
     </div>
 </div>
 
 <script>
-    // ✅ APPS SCRIPT GLOBAL SERVER URL - UPDATED PLACEHOLDER
-    // इसे अपने असली Apps Script Web App URL से बदलना सुनिश्चित करें!
-    const GLOBAL_SERVER = "https://script.google.com/macros/s/AKfycbyu7ibYx852TTRNjo1xj6AdVn9jUug8Lh5J1IvfDIB4KZeIZ1g1lMWg_yOLq0zT_jSYSQ/exec"; 
-    
-    document.addEventListener('DOMContentLoaded', async () => {
-        document.getElementById('name').focus();
-        
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('appointmentDate').min = today;
-        
-        // Apps Script is assumed ON (always on server)
-        document.getElementById('statusText').innerHTML = `
-            <span class="status-dot status-online"></span>
-            ✅ Cloud Server Active (Google Apps Script)
-        `;
-        document.getElementById('serverStatus').style.background = 'rgba(22, 163, 74, 0.08)';
+    // Reveal Animation
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('active');
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    });
-    
-    document.getElementById('bookingForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const name = document.getElementById('name').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-        const pet = document.getElementById('pet').value.trim();
-        const petType = document.getElementById('petType').value;
-        const service = document.getElementById('service').value;
-        const appointmentDate = document.getElementById('appointmentDate').value;
-        const timeSlot = document.getElementById('timeSlot').value;
-        const specialNotes = document.getElementById('specialNotes').value.trim();
-        const tcpaConsent = document.getElementById('tcpaConsent').checked; // ✅ सहमति की स्थिति प्राप्त करें
-        
-        if (!name || !phone || !pet || !petType || !service || !appointmentDate || !timeSlot) {
-            showResult('Please fill all the required fields!', 'error');
-            return;
+    // Legal Page Functions
+    function showLegal(page) {
+        if (page === 'privacy') {
+            document.getElementById('privacy-policy').classList.add('active');
+        } else if (page === 'terms') {
+            document.getElementById('terms-conditions').classList.add('active');
         }
-        
-        // ✅ TCPA सहमति जाँच
-        if (!tcpaConsent) {
-            showResult('❌ You must agree to the Terms of Service and text message consent to proceed!', 'error');
-            return;
-        }
-
-        const cleanedPhone = phone.replace(/\D/g, ''); 
-        if (cleanedPhone.length < 10) { 
-            showResult('Please enter a valid phone number (minimum 10 digits required)!', 'error');
-            return;
-        }
-        
-        const selectedDate = new Date(appointmentDate);
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        
-        if (selectedDate < today) {
-            showResult('Cannot select past date!', 'error');
-            return;
-        }
-        
-        const submitBtn = document.getElementById('submitBtn');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-        submitBtn.disabled = true;
-        
-        showResult('Connecting to cloud server...', 'loading');
-        
-        const appointmentData = {
-            name: name,
-            phone: phone, 
-            pet: pet,
-            petType: petType,
-            service: service,
-            appointmentDate: appointmentDate,
-            timeSlot: timeSlot,
-            specialNotes: specialNotes
-        };
-        
-        try {
-            // Apps Script requires the POST body to be sent as URLSearchParams
-            const params = new URLSearchParams(appointmentData);
-
-            const response = await fetch(GLOBAL_SERVER, {
-                method: 'POST',
-                body: params 
-            });
-            
-            const textResult = await response.text(); 
-            const result = JSON.parse(textResult);
-
-            if (response.ok && result.success) {
-                showResult(`
-                    <h3 style="color: #166534; margin-bottom: 6px;">✅ Appointment Booked Successfully!</h3>
-                    <p><strong>Service:</strong> ${service}</p>
-                    <p><strong>Date:</strong> ${appointmentDate}</p>
-                    <p><strong>Time:</strong> ${timeSlot}</p>
-                    <p style="margin-top: 10px; font-size: 13px;">
-                        <i class="fas fa-info-circle"></i> Appointment sent directly to Google Sheet/Admin Dashboard.
-                    </p>
-                `, 'success');
-                
-                document.getElementById('bookingForm').reset();
-                // ✅ सहमति चेकबॉक्स को भी रीसेट करें
-                document.getElementById('tcpaConsent').checked = false;
-                
-            } else {
-                showResult(`❌ Error: ${result.message || 'Failed to book appointment. Check Apps Script logs.'}`, 'error');
-            }
-            
-        } catch (error) {
-            console.error(error);
-            showResult('⚠️ Network Error! Could not reach the cloud server or response was malformed. Check the Apps Script URL.', 'error');
-        } finally {
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        }
-    });
-    
-    function showResult(message, type) {
-        const resultDiv = document.getElementById('result');
-        resultDiv.innerHTML = message;
-        resultDiv.className = type;
-        resultDiv.style.display = 'block';
+        document.body.style.overflow = 'hidden';
     }
+
+    function closeLegal() {
+        document.getElementById('privacy-policy').classList.remove('active');
+        document.getElementById('terms-conditions').classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    document.querySelectorAll('.legal-page').forEach(page => {
+        page.addEventListener('click', function(e) {
+            if (e.target === this) closeLegal();
+        });
+    });
 </script>
+
 </body>
 </html>
